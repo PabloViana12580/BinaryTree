@@ -35,7 +35,7 @@ public class Association<K,V>
  * @author, 2001 duane a. bailey
  */
 
-public class Association<K,V> implements Map.Entry<K,V>
+public class Association<K extends Comparable<K>, V> implements Comparable<Association<K, V>>
 {
     /**
      * The immutable key.  An arbitrary object.
@@ -154,4 +154,9 @@ public class Association<K,V> implements Map.Entry<K,V>
     /*
 ...
 */
+
+    @Override
+    public int compareTo(Association<K, V> o) {
+	return theKey.compareTo(o.getKey());
+	}
 }

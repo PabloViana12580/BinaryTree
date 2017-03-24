@@ -1,465 +1,153 @@
-/*
-
- *  Java Program to Implement Binary Search Tree
-
- */
-
- 
-
- import java.util.Scanner;
-
- 
-
- /* Class BSTNode */
-
- class BSTNode
-
- {
-
-     BSTNode left, right;
-
-     int data;
-
- 
-
-     /* Constructor */
-
-     public BSTNode()
-
-     {
-
-         left = null;
-
-         right = null;
-
-         data = 0;
-
-     }
-
-     /* Constructor */
-
-     public BSTNode(int n)
-
-     {
-
-         left = null;
-
-         right = null;
-
-         data = n;
-
-     }
-
-     /* Function to set left node */
-
-     public void setLeft(BSTNode n)
-
-     {
-
-         left = n;
-
-     }
-
-     /* Function to set right node */ 
-
-     public void setRight(BSTNode n)
-
-     {
-
-         right = n;
-
-     }
-
-     /* Function to get left node */
-
-     public BSTNode getLeft()
-
-     {
-
-         return left;
-
-     }
-
-     /* Function to get right node */
-
-     public BSTNode getRight()
-
-     {
-
-         return right;
-
-     }
-
-     /* Function to set data to node */
-
-     public void setData(int d)
-
-     {
-
-         data = d;
-
-     }
-
-     /* Function to get data from node */
-
-     public int getData()
-
-     {
-
-         return data;
-
-     }     
-
- }
-
- 
-
- /* Class BST */
-
- class BST
-
- {
-
-     private BSTNode root;
-
- 
-
-     /* Constructor */
-
-     public BST()
-
-     {
-
-         root = null;
-
-     }
-
-     /* Function to check if tree is empty */
-
-     public boolean isEmpty()
-
-     {
-
-         return root == null;
-
-     }
-
-     /* Functions to insert data */
-
-     public void insert(int data)
-
-     {
-
-         root = insert(root, data);
-
-     }
-
-     /* Function to insert data recursively */
-
-     private BSTNode insert(BSTNode node, int data)
-
-     {
-
-         if (node == null)
-
-             node = new BSTNode(data);
-
-         else
-
-         {
-
-             if (data <= node.getData())
-
-                 node.left = insert(node.left, data);
-
-             else
-
-                 node.right = insert(node.right, data);
-
-         }
-
-         return node;
-
-     }
-
-     /* Functions to delete data */
-
-     public void delete(int k)
-
-     {
-
-         if (isEmpty())
-
-             System.out.println("Tree Empty");
-
-         else if (search(k) == false)
-
-             System.out.println("Sorry "+ k +" is not present");
-
-         else
-
-         {
-
-             root = delete(root, k);
-
-             System.out.println(k+ " deleted from the tree");
-
-         }
-
-     }
-
-     private BSTNode delete(BSTNode root, int k)
-
-     {
-
-         BSTNode p, p2, n;
-
-         if (root.getData() == k)
-
-         {
-
-             BSTNode lt, rt;
-
-             lt = root.getLeft();
-
-             rt = root.getRight();
-
-             if (lt == null && rt == null)
-
-                 return null;
-
-             else if (lt == null)
-
-             {
-
-                 p = rt;
-
-                 return p;
-
-             }
-
-             else if (rt == null)
-
-             {
-
-                 p = lt;
-
-                 return p;
-
-             }
-
-             else
-
-             {
-
-                 p2 = rt;
-
-                 p = rt;
-
-                 while (p.getLeft() != null)
-
-                     p = p.getLeft();
-
-                 p.setLeft(lt);
-
-                 return p2;
-
-             }
-
-         }
-
-         if (k < root.getData())
-
-         {
-
-             n = delete(root.getLeft(), k);
-
-             root.setLeft(n);
-
-         }
-
-         else
-
-         {
-
-             n = delete(root.getRight(), k);
-
-             root.setRight(n);             
-
-         }
-
-         return root;
-
-     }
-
-     /* Functions to count number of nodes */
-
-     public int countNodes()
-
-     {
-
-         return countNodes(root);
-
-     }
-
-     /* Function to count number of nodes recursively */
-
-     private int countNodes(BSTNode r)
-
-     {
-
-         if (r == null)
-
-             return 0;
-
-         else
-
-         {
-
-             int l = 1;
-
-             l += countNodes(r.getLeft());
-
-             l += countNodes(r.getRight());
-
-             return l;
-
-         }
-
-     }
-
-     /* Functions to search for an element */
-
-     public boolean search(int val)
-
-     {
-
-         return search(root, val);
-
-     }
-
-     /* Function to search for an element recursively */
-
-     private boolean search(BSTNode r, int val)
-
-     {
-
-         boolean found = false;
-
-         while ((r != null) && !found)
-
-         {
-
-             int rval = r.getData();
-
-             if (val < rval)
-
-                 r = r.getLeft();
-
-             else if (val > rval)
-
-                 r = r.getRight();
-
-             else
-
-             {
-
-                 found = true;
-
-                 break;
-
-             }
-
-             found = search(r, val);
-
-         }
-
-         return found;
-
-     }
-
-     /* Function for inorder traversal */
-
-     public void inorder()
-
-     {
-
-         inorder(root);
-
-     }
-
-     private void inorder(BSTNode r)
-
-     {
-
-         if (r != null)
-
-         {
-
-             inorder(r.getLeft());
-
-             System.out.print(r.getData() +" ");
-
-             inorder(r.getRight());
-
-         }
-
-     }
-
-     /* Function for preorder traversal */
-
-     public void preorder()
-
-     {
-
-         preorder(root);
-
-     }
-
-     private void preorder(BSTNode r)
-
-     {
-
-         if (r != null)
-
-         {
-
-             System.out.print(r.getData() +" ");
-
-             preorder(r.getLeft());             
-
-             preorder(r.getRight());
-
-         }
-
-     }
-
-     /* Function for postorder traversal */
-
-     public void postorder()
-
-     {
-
-         postorder(root);
-
-     }
-
-     private void postorder(BSTNode r)
-
-     {
-
-         if (r != null)
-
-         {
-
-             postorder(r.getLeft());             
-
-             postorder(r.getRight());
-
-             System.out.print(r.getData() +" ");
-
-         }
-
-     }     
-
- }
+//Clase tomada de http://www.sanfoundry.com
+public class BSTNode <E extends Comparable<E>>{
+	private Node<E> root;
+	public BSTNode(){
+		this.root = null;
+	}
+	
+	public E find(E id){
+		Node<E> current = root;
+		while(current!=null){
+			if(current.data.equals(id)){
+				return current.data;
+			}else if(current.data.compareTo(id)>0){
+				current = current.left;
+			}else{
+				current = current.right;
+			}
+		}
+		return null;
+	}
+	public Node<E> getRoot() {
+		return root;
+	}
+
+	public void setRoot(Node<E> root) {
+		this.root = root;
+	}
+
+	public boolean delete(E id){
+		Node<E> parent = root;
+		Node<E> current = root;
+		boolean isLeftChild = false;
+		while(!current.data.equals(id)){
+			parent = current;
+			if(current.data.compareTo(id)>0){
+				isLeftChild = true;
+				current = current.left;
+			}else{
+				isLeftChild = false;
+				current = current.right;
+			}
+			if(current ==null){
+				return false;
+			}
+		}
+		//if i am here that means we have found the node
+		//Case 1: if node to be deleted has no children
+		if(current.left==null && current.right==null){
+			if(current==root){
+				root = null;
+			}
+			if(isLeftChild ==true){
+				parent.left = null;
+			}else{
+				parent.right = null;
+			}
+		}
+		//Case 2 : if node to be deleted has only one child
+		else if(current.right==null){
+			if(current==root){
+				root = current.left;
+			}else if(isLeftChild){
+				parent.left = current.left;
+			}else{
+				parent.right = current.left;
+			}
+		}
+		else if(current.left==null){
+			if(current==root){
+				root = current.right;
+			}else if(isLeftChild){
+				parent.left = current.right;
+			}else{
+				parent.right = current.right;
+			}
+		}else if(current.left!=null && current.right!=null){
+			
+			//now we have found the minimum element in the right sub tree
+			Node<E> successor	 = getSuccessor(current);
+			if(current==root){
+				root = successor;
+			}else if(isLeftChild){
+				parent.left = successor;
+			}else{
+				parent.right = successor;
+			}			
+			successor.left = current.left;
+		}		
+		return true;		
+	}
+	
+	public Node<E> getSuccessor(Node<E> deleleNode){
+		Node<E> successsor =null;
+		Node<E> successsorParent =null;
+		Node<E> current = deleleNode.right;
+		while(current!=null){
+			successsorParent = successsor;
+			successsor = current;
+			current = current.left;
+		}
+		//check if successor has the right child, it cannot have left child for sure
+		// if it does have the right child, add it to the left of successorParent.
+//		successsorParent
+		if(successsor!=deleleNode.right){
+			successsorParent.left = successsor.right;
+			successsor.right = deleleNode.right;
+		}
+		return successsor;
+	}
+	public void insert(E id){
+		Node<E> newNode = new Node<E>(id);
+		if(root==null){
+			root = newNode;
+			return;
+		}
+		Node<E> current = root;
+		Node<E> parent = null;
+		while(true){
+			parent = current;
+			if(id.compareTo(current.data)<0){				
+				current = current.left;
+				if(current==null){
+					parent.left = newNode;
+					return;
+				}
+			}else{
+				current = current.right;
+				if(current==null){
+					parent.right = newNode;
+					return;
+				}
+			}
+		}
+	}
+	public void display(Node<E> root){
+		if(root!=null){
+			display(root.left);
+			System.out.print(root.data + " ");
+			display(root.right);
+		}
+	}
+}
+
+class Node<E>{
+	E data;
+	Node<E> left;
+	Node<E> right;	
+	public Node(E data){
+		this.data = data;
+		left = null;
+		right = null;
+	}
+}
